@@ -4,7 +4,10 @@
 
 var saveBtnEl = $("saveBtn");
 var today = dayjs();
-var cardClass = "row time-block past";
+var currentTime = dayjs().format('hh');
+var cardClassPast = "row time-block past";
+var cardClassPresent = "row time-block present";
+var cardClassFuture = "row time-block future";
 var divClass = "col-2 col-md-1 hour text-center py-3";
 var textareaClass = "col-8 col-md-10 description";
 var buttonClass = "btn saveBtn col-2 col-md-1";
@@ -24,18 +27,34 @@ $(function () {
 
   // display time blcoks of business hours
   for (let i = 0; i < 24; i++) {
-    var time = "hour-" + (i + 1);//sets time id for each card
+    var time = i + 1;
+    var timeID = "hour-" + (i + 1);//sets time id for each card
+
+    // distinguish time blocks as past present future hours
+    if (time < currentTime) {
+      var newTimeCard = $('<div>', {'id': timeID, 'class': cardClassPast});
+    }else if (time == currentTime) {
+      var newTimeCard = $('<div>', {'id': timeID, 'class': cardClassPresent});
+    }else if (time > currentTime) {
+      var newTimeCard = $('<div>', {'id': timeID, 'class': cardClassFuture});
+    }   
+    timeOfDay = timeDisplay(i + 1);
     
-    var newTimeCard = $('<div>', {'id': time, 'class': cardClass});
-    newTimeCard.append($('<div/>', {'class': divClass}).text("10AM"));
+    newTimeCard.append($('<div/>', {'class': divClass}).text(timeOfDay));
     newTimeCard.append($('<textarea/>',{'class': textareaClass, 'rows': 3}));
     newTimeCard.append($('<button/>', {'class': buttonClass, 'aria-label': 'save'}).append($('<i/>', {'class': iClass, 'aria-hidden': "true"})));
     timeContainerEL.append(newTimeCard);
     
   }
+  // converts 24 hour to 12 w/ am/pm
+  function timeDisplay(time){
+    if (time > 12) {
+      time -= 12;
+      return time + "PM"
+    }
+    return time + "AM";
+  }
   
-  // distinguish time blocks as past present future hours
-
   // enter an event
 
   // save input (localstorage)
