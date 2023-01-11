@@ -1,6 +1,3 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
 
 var saveBtnEl = $("saveBtn");
 var today = dayjs();
@@ -14,7 +11,7 @@ var buttonClass = "btn saveBtn col-2 col-md-1";
 var iClass = "fas fa-save";
 var timeContainerEL = $("#timeContainer");
 
-
+// main function for populating schedule with time blocks
 $(function () {
   saveBtnEl.on("click", function(event){
     console.log("button clicked");
@@ -40,6 +37,7 @@ $(function () {
     }   
     timeOfDay = timeDisplay(time);
     
+    // sets class for uniform style display
     newTimeCard.append($('<div/>', {'class': divClass}).text(timeOfDay));
     newTimeCard.append($('<textarea/>',{'class': textareaClass, 'rows': 3, 'name': 'textarea'}));
     newTimeCard.append($('<button/>', {'class': buttonClass, 'aria-label': 'save'}).append($('<i/>', {'class': iClass, 'aria-hidden': "true"})));
@@ -59,14 +57,8 @@ $(function () {
     }
     return time + "AM";
   }
-
-    // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
   
-
-  
-  // enter an event
+  // click event for saving text input
   $('.saveBtn').click(function(event){
     
     // time block and text saved to local storage
